@@ -6,6 +6,7 @@ import { join, resolve } from 'node:path';
 import { promisify } from 'node:util';
 
 const execFileAsync = promisify(execFile);
+const macSigningIdentity = process.env.RAILMANIA_MAC_SIGN_IDENTITY;
 
 function electronExecutable(buildPath: string, platform: string): string {
   const packageRoot = resolve(buildPath, '../..');
@@ -24,6 +25,13 @@ const config: ForgeConfig = {
     asar: true,
     executableName: 'railmania',
     name: 'Railmania',
+    ...(macSigningIdentity === undefined
+      ? {}
+      : {
+          osxSign: {
+            identity: macSigningIdentity,
+          },
+        }),
   },
   rebuildConfig: {},
   makers: [],
@@ -40,13 +48,13 @@ const config: ForgeConfig = {
         [FuseV1Options.EnableNodeCliInspectArguments]: false,
         [FuseV1Options.EnableEmbeddedAsarIntegrityValidation]: true,
         [FuseV1Options.OnlyLoadAppFromAsar]: true,
-        [FuseV1Options.LoadBrowserProcessSpecificV8Snapshot]: true,
+        [FuseV1Options.LoadBrowserProcessSpecificV8Snapshot]: false,
         [FuseV1Options.GrantFileProtocolExtraPrivileges]: false,
         [FuseV1Options.WasmTrapHandlers]: true,
       });
     },
     postPackage: async (_forgeConfig, packageResult) => {
-      if (packageResult.platform !== 'darwin') return;
+      if (packageResult.platform !== 'darwin' || macSigningIdentity !== undefined) return;
 
       for (const outputPath of packageResult.outputPaths) {
         const appPath = outputPath.endsWith('.app')
@@ -57,8 +65,6 @@ const config: ForgeConfig = {
           '--force',
           '--deep',
           '--strict',
-          '--options',
-          'runtime',
           '--sign',
           '-',
           appPath,

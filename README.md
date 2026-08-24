@@ -10,9 +10,12 @@ bun start
 bun run check
 bun run audit
 bun run package
+bun run smoke:package
 ```
 
 Production packages are written to `out/`.
+
+`bun run smoke:package` starts the packaged executable directly and fails if it exits during the first five seconds. This catches dyld, signature, fuse, and early Electron startup failures.
 
 `bunfig.toml` disables implicit package installs, automatic `.env` loading, and telemetry. It uses exact versions, isolated dependency links, Bun's global store, and current registry metadata. CI should use `bun run install:ci`. Production targets Electron's bundled Node 24 and Chromium 150 engines, avoiding old-browser transforms.
 
@@ -32,11 +35,13 @@ Production packages are written to `out/`.
 - Electron runs only code from `app.asar`.
 - Node mode, `NODE_OPTIONS`, and CLI inspector Electron fuses disabled.
 - Cookie encryption fuse enabled.
-- Browser-process-specific V8 snapshot enabled; extra `file://` privileges disabled.
+- Browser-process-specific V8 snapshot disabled because no custom snapshot is shipped; extra `file://` privileges disabled.
 - WebAssembly trap handlers enabled for current V8 memory guards and speed.
 - Fuse build fails if any present Electron fuse lacks an explicit setting.
-- Final post-package hook gives local macOS packages a fresh hardened ad-hoc signature after fuse and ASAR changes.
+- Final post-package hook gives local macOS packages a fresh ad-hoc signature after fuse and ASAR changes.
 
 Obfuscation does not make client code secret. Signed releases, prompt Electron updates, dependency review, and no embedded secrets remain required.
 
 Renderer obfuscation avoids dynamic-code anti-debug traps because strict CSP correctly blocks `eval` and `Function`. Main-process bundles use stronger traps because CSP does not govern Node code.
+
+Ad-hoc macOS signatures cannot enforce same-team hardened library validation across Electron's nested frameworks. Local packages therefore omit hardened runtime. Set `RAILMANIA_MAC_SIGN_IDENTITY` to a Developer ID Application identity for a hardened signed build, then notarize it before public release.

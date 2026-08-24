@@ -22,5 +22,9 @@
 
 ## [OUTCOMES]
 
-- 2026-08-24T17:35:12+0200 [TOOL] Type check, dependency freshness check, frozen Bun install, Bun audit, production package, ASAR integrity, fuse readback, strict macOS signature verification, and packaged-app smoke launch all passed.
+- 2026-08-24T17:35:12+0200 [TOOL] Type check, dependency freshness check, frozen Bun install, Bun audit, production package, ASAR integrity, fuse readback, and static macOS signature verification passed. Initial smoke command did not validate process survival.
 - 2026-08-24T17:35:12+0200 [TOOL] Bun audit reported no known vulnerabilities. Packaged renderer contains no source maps, loose app directory, `eval(`, or `Function(` calls.
+- 2026-08-24T17:40:24+0200 [USER] Crash report showed dyld rejecting mixed ad-hoc Team IDs under hardened library validation.
+- 2026-08-24T17:40:24+0200 [DISCOVERY] Local ad-hoc hardened runtime caused nested Electron framework library validation failure. Browser-specific V8 snapshot fuse also caused startup failure because no custom snapshot was shipped.
+- 2026-08-24T17:40:24+0200 [CODE] Local ad-hoc package omits hardened runtime; Developer ID builds can use `RAILMANIA_MAC_SIGN_IDENTITY`. Browser-specific V8 snapshot fuse is explicitly disabled.
+- 2026-08-24T17:40:24+0200 [TOOL] Corrected package passed deep strict signature verification, fuse readback, ASAR integrity, and repeatable five-second process-survival smoke test with empty logs.

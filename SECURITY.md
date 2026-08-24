@@ -14,4 +14,4 @@ Report security issues privately to project owner. Do not open a public issue wi
 
 ASAR and obfuscation slow inspection. They are not encryption and do not replace server-side checks for any future online feature.
 
-Local macOS packages use a hardened ad-hoc signature so bundle integrity can be tested. Public release must replace it with a Developer ID Application signature and Apple notarization.
+Local macOS packages use an ad-hoc signature so bundle integrity can be tested. Ad-hoc signatures cannot safely enforce same-team hardened library validation across Electron's nested frameworks. Set `RAILMANIA_MAC_SIGN_IDENTITY` to a Developer ID Application identity for a hardened signed build, then notarize it before public release.

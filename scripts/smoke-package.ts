@@ -23,10 +23,10 @@ if (!existsSync(executable)) {
   throw new Error(`Packaged executable not found: ${executable}`);
 }
 
-const child = spawn(executable, ['--railmania-smoke-test'], {
+const child = spawn(executable, [], {
   env: {
     ...process.env,
-    ELECTRON_ENABLE_LOGGING: '1',
+    RAILMANIA_INTERNAL_SMOKE_TEST: '1',
   },
   stdio: ['ignore', 'pipe', 'pipe'],
 });
@@ -63,4 +63,27 @@ if (result.code !== 0 || !output.includes(READY_MARKER)) {
   );
 }
 
-console.log('Packaged app reached renderer readiness.');
+const blockedLaunch = spawn(executable, ['--no-sandbox'], {
+  stdio: 'ignore',
+});
+const blockedExit = new Promise<number | null>((resolveExit) => {
+  blockedLaunch.once('exit', (code) => resolveExit(code));
+});
+let blockedTimeoutId: NodeJS.Timeout | undefined;
+const blockedTimeout = new Promise<'timeout'>((resolveTimeout) => {
+  blockedTimeoutId = setTimeout(() => resolveTimeout('timeout'), 5_000);
+});
+const blockedResult = await Promise.race([blockedExit, blockedTimeout]);
+if (blockedTimeoutId !== undefined) clearTimeout(blockedTimeoutId);
+
+if (blockedResult === 'timeout') {
+  blockedLaunch.kill('SIGTERM');
+  await blockedExit;
+  throw new Error('Packaged app did not reject a blocked launch argument.');
+}
+
+if (blockedResult !== 2) {
+  throw new Error(`Packaged app returned ${String(blockedResult)} for a blocked launch argument.`);
+}
+
+console.log('Packaged app reached renderer readiness and rejected blocked launch arguments.');

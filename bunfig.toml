@@ -4,10 +4,10 @@ env = false
 [install]
 auto = "disable"
 exact = true
-prefer = "latest"
 linker = "isolated"
 globalStore = true
 hoist = false
+minimumReleaseAge = 259200
 saveTextLockfile = true
 optional = true
 dev = true

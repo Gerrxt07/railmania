@@ -6,6 +6,7 @@
       "name": "railmania",
       "devDependencies": {
         "@electron-forge/cli": "8.0.0-alpha.10",
+        "@electron-forge/plugin-fuses": "8.0.0-alpha.10",
         "@electron-forge/plugin-vite": "8.0.0-alpha.10",
         "@electron-forge/shared-types": "8.0.0-alpha.10",
         "@electron/fuses": "2.1.3",
@@ -30,6 +31,8 @@
     "@electron-forge/maker-base": ["@electron-forge/maker-base@8.0.0-alpha.10", "", { "dependencies": { "@electron-forge/shared-types": "8.0.0-alpha.10", "which": "^6.0.0" } }, "sha512-aZ7YlU785r/1VPy0h1HHy1VEiufqMX0fd4tzHcAWwDfZguajfhnGioPfgCaEVKBWyAgV3v7Pge2FkL7YcRsxsQ=="],
 
     "@electron-forge/plugin-base": ["@electron-forge/plugin-base@8.0.0-alpha.10", "", { "dependencies": { "@electron-forge/shared-types": "8.0.0-alpha.10" } }, "sha512-AoL+VuuFVLgqeRzO0dLvrx4f2t1nMeHQ1YKj/EoqAQ6uU7D4HS2D4FNEXyxTQFVrNj4OqSte7U3sqGenc327XA=="],
+
+    "@electron-forge/plugin-fuses": ["@electron-forge/plugin-fuses@8.0.0-alpha.10", "", { "dependencies": { "@electron-forge/plugin-base": "8.0.0-alpha.10", "@electron-forge/shared-types": "8.0.0-alpha.10" }, "peerDependencies": { "@electron/fuses": "^2.0.0" } }, "sha512-tGcnbigz25iTnMH2fPCljO8J5KfXD9r4VSOsBy1Ybj1EkjpoQ7cldbergp09A72k74tbb56LOZzcGsHTaGJD6A=="],
 
     "@electron-forge/plugin-vite": ["@electron-forge/plugin-vite@8.0.0-alpha.10", "", { "dependencies": { "@electron-forge/core-utils": "8.0.0-alpha.10", "@electron-forge/plugin-base": "8.0.0-alpha.10", "@electron-forge/shared-types": "8.0.0-alpha.10", "debug": "^4.3.1", "listr2": "^7.0.2" } }, "sha512-ctt+M1D1K5Or07oGWGUByLHfPJW91Qn1JKHWhJEkEZmrp6ggJrSrp7JqgBhNAqe5XtpEhhPCtDMaRfFmcSL+2g=="],
 

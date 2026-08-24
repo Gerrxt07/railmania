@@ -13,10 +13,12 @@
   "main": ".vite/build/main.cjs",
   "scripts": {
     "start": "electron-forge start",
-    "check": "tsc --noEmit",
+    "check": "bun run check:main && bun run check:renderer",
+    "check:main": "tsc --noEmit -p tsconfig.main.json",
+    "check:renderer": "tsc --noEmit -p tsconfig.renderer.json",
     "build": "electron-forge package",
     "package": "electron-forge package",
-    "install:ci": "bun install --frozen-lockfile",
+    "install:ci": "bun ci",
     "deps:check": "bun outdated",
     "audit": "bun audit --audit-level=low",
     "smoke:package": "bun scripts/smoke-package.ts",
@@ -24,6 +26,7 @@
   },
   "devDependencies": {
     "@electron-forge/cli": "8.0.0-alpha.10",
+    "@electron-forge/plugin-fuses": "8.0.0-alpha.10",
     "@electron-forge/plugin-vite": "8.0.0-alpha.10",
     "@electron-forge/shared-types": "8.0.0-alpha.10",
     "@electron/fuses": "2.1.3",

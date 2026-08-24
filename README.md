@@ -12,6 +12,7 @@ bun run check
 bun run audit
 bun run package
 bun run smoke:package
+bun run verify
 ```
 
 Production packages are written to `out/`.

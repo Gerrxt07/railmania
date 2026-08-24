@@ -22,7 +22,7 @@
     "deps:check": "bun outdated",
     "audit": "bun audit --audit-level=low",
     "smoke:package": "bun scripts/smoke-package.ts",
-    "verify": "bun run check && bun run audit && bun run package"
+    "verify": "bun run check && bun run audit && bun run package && bun run smoke:package"
   },
   "devDependencies": {
     "@electron-forge/cli": "8.0.0-alpha.10",

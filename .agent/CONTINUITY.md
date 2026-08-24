@@ -52,3 +52,6 @@
 - 2026-08-24T19:09:22+0200 [USER] Reported that the environment-controlled internal smoke mode was externally activatable.
 - 2026-08-24T19:09:22+0200 [CODE] Removed smoke environment handling, readiness marker, protocol self-tests, and test-only exit behavior from the application. Smoke testing now observes the spawned Electron process tree externally for a renderer process.
 - 2026-08-24T19:09:22+0200 [TOOL] Split type checks, package build, external renderer-process smoke check, normal-argument launch, dangerous-switch rejection, no-smoke-hook packaged bundle check, fuse readback, and deep signature verification passed.
+- 2026-08-24T19:10:30+0200 [USER] Add the packaged smoke check to the `verify` script.
+- 2026-08-24T19:10:30+0200 [CODE] `verify` now runs type checks, dependency audit, production package, and external packaged smoke test in sequence.
+- 2026-08-24T19:10:30+0200 [TOOL] Full `bun run verify` passed with no known vulnerabilities.

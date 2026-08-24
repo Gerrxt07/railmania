@@ -15,6 +15,7 @@ const config: ForgeConfig = {
     appCategoryType: 'public.app-category.games',
     asar: true,
     executableName: 'railmania',
+    icon: 'build-resources/railmania.icns',
     name: 'Railmania',
     ...(macSigningIdentity === undefined
       ? {}

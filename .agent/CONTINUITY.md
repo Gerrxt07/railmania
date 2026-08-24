@@ -61,3 +61,6 @@
 - 2026-08-24T21:23:35+0200 [USER] Remove the remaining internal `file:` protocol allowance.
 - 2026-08-24T21:23:35+0200 [CODE] Custom protocol assets now use direct ASAR-aware file reads with an explicit MIME allowlist. All session `file:` requests are denied.
 - 2026-08-24T21:23:35+0200 [TOOL] Type checks, zero-vulnerability audit, production package, packaged renderer smoke test, dangerous-switch test, fuse readback, and deep signature verification passed.
+- 2026-08-24T21:30:12+0200 [USER] Use the supplied Railmania logo as the application icon.
+- 2026-08-24T21:30:12+0200 [CODE] Logo master moved to `build-resources`; a reproducible Bun script builds a multi-size macOS ICNS, and Forge now applies it to the app bundle.
+- 2026-08-24T21:30:12+0200 [TOOL] Icon readback and packaged checksum matched. Full verify, renderer launch, blocked-switch test, fuse readback, and deep signature verification passed.

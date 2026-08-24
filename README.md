@@ -17,6 +17,8 @@ bun run verify
 
 Production packages are written to `out/`.
 
+App icon source lives at `build-resources/railmania-logo.png`. Rebuild the macOS icon with `bun run icon:build` after changing the source.
+
 `bun run smoke:package` starts the packaged executable directly and observes its process tree for a renderer. Test mode is not exposed inside the app. The check catches dyld, signature, fuse, main-process, and early renderer startup failures.
 
 `bunfig.toml` disables implicit package installs, automatic `.env` loading, and telemetry. It uses exact versions, isolated dependency links, Bun's global store, and a three-day minimum package release age. CI uses `bun ci` through `bun run install:ci`. Only Electron is trusted to run dependency lifecycle scripts. Production targets Electron's bundled Node 24 and Chromium 150 engines, avoiding old-browser transforms.

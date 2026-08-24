@@ -18,6 +18,7 @@
     "check:renderer": "tsc --noEmit -p tsconfig.renderer.json",
     "build": "electron-forge package",
     "package": "electron-forge package",
+    "icon:build": "bun scripts/build-macos-icon.ts",
     "install:ci": "bun ci",
     "deps:check": "bun outdated",
     "audit": "bun audit --audit-level=low",

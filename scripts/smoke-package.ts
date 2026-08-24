@@ -1,7 +1,8 @@
-import { once } from 'node:events';
 import { existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { spawn } from 'node:child_process';
+
+const READY_MARKER = 'RAILMANIA_SMOKE_READY';
 
 function packagedExecutable(): string {
   const packageRoot = resolve(`out/Railmania-${process.platform}-${process.arch}`);
@@ -22,7 +23,7 @@ if (!existsSync(executable)) {
   throw new Error(`Packaged executable not found: ${executable}`);
 }
 
-const child = spawn(executable, [], {
+const child = spawn(executable, ['--railmania-smoke-test'], {
   env: {
     ...process.env,
     ELECTRON_ENABLE_LOGGING: '1',
@@ -40,27 +41,26 @@ child.stderr.on('data', (chunk: string) => {
   output += chunk;
 });
 
-const earlyExit = new Promise<{ code: number | null; signal: NodeJS.Signals | null }>((resolveExit) => {
+const exit = new Promise<{ code: number | null; signal: NodeJS.Signals | null }>((resolveExit) => {
   child.once('exit', (code, signal) => resolveExit({ code, signal }));
 });
-const survived = new Promise<'survived'>((resolveSurvival) => {
-  setTimeout(() => resolveSurvival('survived'), 5_000);
+let timeoutId: NodeJS.Timeout | undefined;
+const timeout = new Promise<'timeout'>((resolveTimeout) => {
+  timeoutId = setTimeout(() => resolveTimeout('timeout'), 10_000);
 });
 
-const result = await Promise.race([earlyExit, survived]);
-if (result !== 'survived') {
+const result = await Promise.race([exit, timeout]);
+if (timeoutId !== undefined) clearTimeout(timeoutId);
+if (result === 'timeout') {
+  child.kill('SIGTERM');
+  await exit;
+  throw new Error(`Packaged app did not become ready within ten seconds.\n${output}`);
+}
+
+if (result.code !== 0 || !output.includes(READY_MARKER)) {
   throw new Error(
-    `Packaged app exited before five seconds (code=${String(result.code)}, signal=${String(result.signal)}).\n${output}`,
+    `Packaged app failed readiness check (code=${String(result.code)}, signal=${String(result.signal)}).\n${output}`,
   );
 }
 
-if (/uncaught exception|javascript error occurred/i.test(output)) {
-  child.kill('SIGTERM');
-  throw new Error(`Packaged app reported a JavaScript startup error.\n${output}`);
-}
-
-const stopped = once(child, 'exit');
-child.kill('SIGTERM');
-await stopped;
-
-console.log('Packaged app stayed alive for five seconds.');
+console.log('Packaged app reached renderer readiness.');

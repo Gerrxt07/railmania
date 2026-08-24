@@ -1,11 +1,11 @@
 import { app, BrowserWindow, net, protocol, session } from 'electron';
-import { dirname, join, normalize, relative, resolve, sep } from 'node:path';
-import { fileURLToPath, pathToFileURL } from 'node:url';
+import { normalize, relative, resolve, sep } from 'node:path';
+import { pathToFileURL } from 'node:url';
 
 const APP_SCHEME = 'railmania';
 const APP_HOST = 'app';
 const PRODUCTION_ORIGIN = `${APP_SCHEME}://${APP_HOST}`;
-const currentDirectory = dirname(fileURLToPath(import.meta.url));
+const SMOKE_TEST_ARGUMENT = '--railmania-smoke-test';
 
 protocol.registerSchemesAsPrivileged([
   {
@@ -78,7 +78,7 @@ function registerAppProtocol(): void {
     const requestUrl = new URL(request.url);
     if (requestUrl.host !== APP_HOST) return new Response(null, { status: 404 });
 
-    const rendererRoot = resolve(currentDirectory, `../renderer/${MAIN_WINDOW_VITE_NAME}`);
+    const rendererRoot = resolve(app.getAppPath(), `.vite/renderer/${MAIN_WINDOW_VITE_NAME}`);
     const requestedPath = decodeURIComponent(requestUrl.pathname === '/' ? '/index.html' : requestUrl.pathname);
     const filePath = resolve(rendererRoot, normalize(requestedPath).replace(/^[/\\]+/, ''));
     const pathFromRoot = relative(rendererRoot, filePath);
@@ -128,7 +128,15 @@ function createWindow(): BrowserWindow {
     callback('');
   });
   window.webContents.on('will-attach-webview', (event) => event.preventDefault());
-  window.once('ready-to-show', () => window.show());
+  window.once('ready-to-show', () => {
+    if (process.argv.includes(SMOKE_TEST_ARGUMENT)) {
+      process.stdout.write('RAILMANIA_SMOKE_READY\n');
+      app.quit();
+      return;
+    }
+
+    window.show();
+  });
 
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL !== undefined && !app.isPackaged) {
     void window.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);

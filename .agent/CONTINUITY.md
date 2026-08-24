@@ -32,3 +32,7 @@
 - 2026-08-24T17:49:53+0200 [DISCOVERY] Vite emitted CommonJS main code while package `type` marked `.js` as ESM. Earlier survival-only smoke test could miss an Electron error dialog.
 - 2026-08-24T17:49:53+0200 [CODE] Main bundle now has explicit CommonJS format and `.cjs` extension. Smoke test enables Electron logs and rejects reported JavaScript startup errors.
 - 2026-08-24T17:49:53+0200 [TOOL] Type check, package build, ASAR entry check, deep code-sign check, fuse readback, diff check, and five-second packaged launch passed.
+- 2026-08-24T17:52:03+0200 [USER] CommonJS main then failed because `fileURLToPath(import.meta.url)` received undefined.
+- 2026-08-24T17:52:03+0200 [DISCOVERY] CommonJS output cannot use `import.meta.url`; survival testing also cannot distinguish a ready app from a blocking error dialog.
+- 2026-08-24T17:52:03+0200 [CODE] Renderer root now derives from `app.getAppPath()`. Packaged smoke mode exits only after renderer `ready-to-show` and emits a checked readiness marker.
+- 2026-08-24T17:52:03+0200 [TOOL] Type check, package build, renderer readiness test, no-`import.meta` bundle check, deep code-sign check, fuse readback, and diff check passed.

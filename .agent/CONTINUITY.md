@@ -43,3 +43,9 @@
 - 2026-08-24T18:55:57+0200 [CODE] Main and renderer TypeScript configs are isolated. Bun uses `bun ci`, a three-day minimum release age, and only Electron as a trusted lifecycle dependency. Forge Fuses Plugin replaced manual fuse-path logic.
 - 2026-08-24T18:55:57+0200 [DISCOVERY] Node URL `.origin` is `null` for the custom scheme; direct scheme and host matching is required. Packaged security smoke checks found and verified this fix.
 - 2026-08-24T18:55:57+0200 [TOOL] Split type checks, Bun CI, no-untrusted-script check, dependency freshness check, zero-vulnerability audit, production package, protocol security checks, renderer readiness, dangerous-argument rejection, ASAR integrity, no-source-map check, fuse readback, and deep signature verification passed.
+- 2026-08-24T19:06:32+0200 [USER] Allow normal launch arguments, block only dangerous switches, and limit keyboard filtering to DevTools shortcuts.
+- 2026-08-24T19:06:32+0200 [USER] Use an explicit real NUL check and remove the unused `blob:` worker CSP source instead of allowing Blob requests.
+- 2026-08-24T19:06:32+0200 [DISCOVERY] Source already used the real `\0` escape; it was changed to the clearer equivalent `\u0000` and gained a packaged `%00` rejection test.
+- 2026-08-24T19:06:32+0200 [CODE] Normal arguments now pass. A named denylist rejects sandbox bypass, inspector, remote debug, unsafe Chromium, extension, process launcher, certificate, logging, proxy, and alternate-profile switches. Only common DevTools shortcuts are filtered.
+- 2026-08-24T19:06:32+0200 [CODE] CSP now uses `worker-src 'self'`; Blob workers remain blocked by both CSP and network policy.
+- 2026-08-24T19:06:32+0200 [TOOL] Split type checks, package build, normal-argument launch, renderer readiness, malformed encoding, NUL path, forbidden method, external-network policy, dangerous-switch rejection, fuse readback, and deep signature verification passed.

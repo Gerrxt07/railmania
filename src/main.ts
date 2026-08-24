@@ -7,18 +7,60 @@ const APP_HOST = 'app';
 const PRODUCTION_ORIGIN = `${APP_SCHEME}://${APP_HOST}`;
 const INTERNAL_SMOKE_TEST = process.env.RAILMANIA_INTERNAL_SMOKE_TEST === '1';
 const BLOCKED_CONSOLE_METHODS = ['debug', 'error', 'info', 'log', 'trace', 'warn'] as const;
+const BLOCKED_LAUNCH_SWITCHES = new Set([
+  'allow-file-access-from-files',
+  'allow-running-insecure-content',
+  'auto-open-devtools-for-tabs',
+  'browser-subprocess-path',
+  'custom-devtools-frontend',
+  'disable-features',
+  'disable-gpu-sandbox',
+  'disable-namespace-sandbox',
+  'disable-sandbox',
+  'disable-seccomp-filter-sandbox',
+  'disable-setuid-sandbox',
+  'disable-site-isolation-trials',
+  'disable-web-security',
+  'enable-blink-features',
+  'enable-experimental-web-platform-features',
+  'enable-features',
+  'enable-logging',
+  'gpu-launcher',
+  'host-resolver-rules',
+  'host-rules',
+  'ignore-certificate-errors',
+  'ignore-certificate-errors-spki-list',
+  'in-process-gpu',
+  'in-process-plugins',
+  'inspect',
+  'inspect-brk',
+  'inspect-port',
+  'inspect-publish-uid',
+  'inspect-wait',
+  'js-flags',
+  'load-extension',
+  'log-file',
+  'log-net-log',
+  'no-sandbox',
+  'proxy-pac-url',
+  'proxy-server',
+  'remote-allow-origins',
+  'remote-debugging-address',
+  'remote-debugging-pipe',
+  'remote-debugging-port',
+  'renderer-cmd-prefix',
+  'single-process',
+  'user-data-dir',
+  'utility-cmd-prefix',
+]);
 const configuredSessions = new WeakSet<Electron.Session>();
 
 delete process.env.RAILMANIA_INTERNAL_SMOKE_TEST;
 
-const launchArguments = process.argv.slice(1);
-if (!app.isPackaged && launchArguments[0] !== undefined) {
-  const developmentEntry = resolve(launchArguments[0]);
-  if (developmentEntry === resolve(app.getAppPath())) launchArguments.shift();
-}
-
-const hasBlockedLaunchArgument = launchArguments.some((argument) => {
-  return process.platform !== 'darwin' || !/^-psn_\d+_\d+$/.test(argument);
+const hasBlockedLaunchArgument = process.argv.slice(1).some((argument) => {
+  if (!argument.startsWith('--')) return false;
+  const switchName = argument.slice(2).split('=', 1)[0]?.toLowerCase();
+  return switchName !== undefined && BLOCKED_LAUNCH_SWITCHES.has(switchName);
 });
 
 if (hasBlockedLaunchArgument) process.exit(2);
@@ -32,14 +74,11 @@ for (const method of BLOCKED_CONSOLE_METHODS) {
 }
 Object.freeze(console);
 
-for (const switchName of ['inspect', 'inspect-brk', 'remote-debugging-pipe', 'remote-debugging-port']) {
+for (const switchName of BLOCKED_LAUNCH_SWITCHES) {
   app.commandLine.removeSwitch(switchName);
 }
 
 app.enableSandbox();
-
-app.on('open-file', (event) => event.preventDefault());
-app.on('open-url', (event) => event.preventDefault());
 
 protocol.registerSchemesAsPrivileged([
   {
@@ -128,7 +167,7 @@ function configureSession(currentSession: Electron.Session): void {
       "img-src 'self' data:",
       "font-src 'self'",
       `connect-src ${connectSource}`,
-      "worker-src 'self' blob:",
+      "worker-src 'self'",
       "object-src 'none'",
       "base-uri 'none'",
       "form-action 'none'",
@@ -179,7 +218,7 @@ function registerAppProtocol(): void {
       return new Response(null, { status: 400 });
     }
 
-    if (requestedPath.includes('\0')) return new Response(null, { status: 400 });
+    if (requestedPath.includes('\u0000')) return new Response(null, { status: 400 });
 
     const filePath = resolve(rendererRoot, normalize(requestedPath).replace(/^[/\\]+/, ''));
     const pathFromRoot = relative(rendererRoot, filePath);
@@ -198,10 +237,16 @@ function registerAppProtocol(): void {
 
 async function completeSmokeTest(): Promise<void> {
   const malformedEncoding = await net.fetch(`${PRODUCTION_ORIGIN}/%E0%A4%A`);
+  const nullBytePath = await net.fetch(`${PRODUCTION_ORIGIN}/%00`);
   const forbiddenMethod = await net.fetch(`${PRODUCTION_ORIGIN}/index.html`, { method: 'POST' });
   const externalNetworkAllowed = isAllowedNetworkRequest('https://example.com/', true);
 
-  if (malformedEncoding.status !== 400 || forbiddenMethod.status !== 405 || externalNetworkAllowed) {
+  if (
+    malformedEncoding.status !== 400 ||
+    nullBytePath.status !== 400 ||
+    forbiddenMethod.status !== 405 ||
+    externalNetworkAllowed
+  ) {
     throw new Error('Packaged security readiness checks failed.');
   }
 
@@ -274,10 +319,15 @@ if (!app.requestSingleInstanceLock()) {
       event.preventDefault();
       callback('');
     });
-    contents.setIgnoreMenuShortcuts(true);
     contents.on('before-input-event', (event, input) => {
-      const isFunctionKey = /^F(?:[1-9]|1[0-2])$/.test(input.key);
-      if (input.alt || input.control || input.meta || isFunctionKey) event.preventDefault();
+      const key = input.key.toLowerCase();
+      const isDevToolsShortcut =
+        key === 'f12' ||
+        (input.control && input.shift && ['c', 'i', 'j', 'k'].includes(key)) ||
+        (input.meta && input.alt && ['c', 'i', 'j'].includes(key)) ||
+        (input.meta && input.shift && key === 'c');
+
+      if (isDevToolsShortcut) event.preventDefault();
     });
     contents.on('devtools-opened', () => {
       contents.closeDevTools();

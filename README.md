@@ -31,13 +31,15 @@ Type checks are split: `tsconfig.main.json` has Node types for Electron and buil
 - Local custom protocol instead of `file://` in production.
 - Static protocol is GET-only and rejects malformed encoding, invalid authority fields, NUL bytes, and path traversal.
 - Downloads and network access are denied by default. Only packaged app resources or the exact Vite development host are allowed.
-- Global rules deny popups, webviews, external navigation, redirects, Bluetooth selection, context menus, DevTools, menu shortcuts, modifier shortcuts, and function-key shortcuts for every `WebContents`.
+- Global rules deny popups, webviews, external navigation, redirects, Bluetooth selection, context menus, and DevTools for every `WebContents`.
+- Common DevTools shortcuts are blocked. Other keyboard shortcuts and normal game input remain available.
 - Application menu is removed. Main and renderer console methods are disabled.
 - All permissions are denied.
 - Device and Bluetooth permission paths denied.
 - Strict production Content Security Policy and response headers.
+- Blob workers are not allowed. Add them only if a future worker design requires them.
 - DevTools and remote-debugging switches disabled in every build.
-- Packaged launches reject all command-line arguments except macOS Finder's internal process token. File-open, URL-open, and second-instance commands are ignored.
+- Normal launch arguments are allowed. Security-breaking switches for sandbox bypass, inspectors, remote debugging, unsafe Chromium features, extensions, process launchers, certificate bypass, logging, proxy overrides, and alternate user-data paths are rejected.
 - Production JavaScript minified and obfuscated; source maps disabled.
 - App packed into ASAR with embedded integrity validation.
 - Electron runs only code from `app.asar`.

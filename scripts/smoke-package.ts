@@ -23,7 +23,7 @@ if (!existsSync(executable)) {
   throw new Error(`Packaged executable not found: ${executable}`);
 }
 
-const child = spawn(executable, [], {
+const child = spawn(executable, ['--campaign=test', 'save-slot-1'], {
   env: {
     ...process.env,
     RAILMANIA_INTERNAL_SMOKE_TEST: '1',
@@ -86,4 +86,4 @@ if (blockedResult !== 2) {
   throw new Error(`Packaged app returned ${String(blockedResult)} for a blocked launch argument.`);
 }
 
-console.log('Packaged app reached renderer readiness and rejected blocked launch arguments.');
+console.log('Packaged app accepted normal arguments, reached renderer readiness, and rejected blocked switches.');

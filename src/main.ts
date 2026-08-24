@@ -5,7 +5,6 @@ import { pathToFileURL } from 'node:url';
 const APP_SCHEME = 'railmania';
 const APP_HOST = 'app';
 const PRODUCTION_ORIGIN = `${APP_SCHEME}://${APP_HOST}`;
-const INTERNAL_SMOKE_TEST = process.env.RAILMANIA_INTERNAL_SMOKE_TEST === '1';
 const BLOCKED_CONSOLE_METHODS = ['debug', 'error', 'info', 'log', 'trace', 'warn'] as const;
 const BLOCKED_LAUNCH_SWITCHES = new Set([
   'allow-file-access-from-files',
@@ -54,8 +53,6 @@ const BLOCKED_LAUNCH_SWITCHES = new Set([
   'utility-cmd-prefix',
 ]);
 const configuredSessions = new WeakSet<Electron.Session>();
-
-delete process.env.RAILMANIA_INTERNAL_SMOKE_TEST;
 
 const hasBlockedLaunchArgument = process.argv.slice(1).some((argument) => {
   if (!argument.startsWith('--')) return false;
@@ -235,25 +232,6 @@ function registerAppProtocol(): void {
   });
 }
 
-async function completeSmokeTest(): Promise<void> {
-  const malformedEncoding = await net.fetch(`${PRODUCTION_ORIGIN}/%E0%A4%A`);
-  const nullBytePath = await net.fetch(`${PRODUCTION_ORIGIN}/%00`);
-  const forbiddenMethod = await net.fetch(`${PRODUCTION_ORIGIN}/index.html`, { method: 'POST' });
-  const externalNetworkAllowed = isAllowedNetworkRequest('https://example.com/', true);
-
-  if (
-    malformedEncoding.status !== 400 ||
-    nullBytePath.status !== 400 ||
-    forbiddenMethod.status !== 405 ||
-    externalNetworkAllowed
-  ) {
-    throw new Error('Packaged security readiness checks failed.');
-  }
-
-  process.stdout.write('RAILMANIA_SMOKE_READY\n');
-  app.quit();
-}
-
 function createWindow(): BrowserWindow {
   const window = new BrowserWindow({
     width: 1280,
@@ -279,18 +257,7 @@ function createWindow(): BrowserWindow {
     },
   });
 
-  window.once('ready-to-show', () => {
-    if (INTERNAL_SMOKE_TEST) {
-      void completeSmokeTest().catch((error: unknown) => {
-        const message = error instanceof Error ? error.message : 'Unknown smoke test error';
-        process.stderr.write(`${message}\n`);
-        app.exit(1);
-      });
-      return;
-    }
-
-    window.show();
-  });
+  window.once('ready-to-show', () => window.show());
 
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL !== undefined && !app.isPackaged) {
     void window.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);

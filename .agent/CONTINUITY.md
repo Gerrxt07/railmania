@@ -49,3 +49,6 @@
 - 2026-08-24T19:06:32+0200 [CODE] Normal arguments now pass. A named denylist rejects sandbox bypass, inspector, remote debug, unsafe Chromium, extension, process launcher, certificate, logging, proxy, and alternate-profile switches. Only common DevTools shortcuts are filtered.
 - 2026-08-24T19:06:32+0200 [CODE] CSP now uses `worker-src 'self'`; Blob workers remain blocked by both CSP and network policy.
 - 2026-08-24T19:06:32+0200 [TOOL] Split type checks, package build, normal-argument launch, renderer readiness, malformed encoding, NUL path, forbidden method, external-network policy, dangerous-switch rejection, fuse readback, and deep signature verification passed.
+- 2026-08-24T19:09:22+0200 [USER] Reported that the environment-controlled internal smoke mode was externally activatable.
+- 2026-08-24T19:09:22+0200 [CODE] Removed smoke environment handling, readiness marker, protocol self-tests, and test-only exit behavior from the application. Smoke testing now observes the spawned Electron process tree externally for a renderer process.
+- 2026-08-24T19:09:22+0200 [TOOL] Split type checks, package build, external renderer-process smoke check, normal-argument launch, dangerous-switch rejection, no-smoke-hook packaged bundle check, fuse readback, and deep signature verification passed.

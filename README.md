@@ -2,6 +2,8 @@
 
 Minimal Electron base for Railmania. App has no game content yet.
 
+The app starts fullscreen with a light, railway-themed startup sequence. Reduced-motion system settings shorten the sequence and remove motion.
+
 ## Commands
 
 ```sh

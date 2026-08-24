@@ -67,3 +67,6 @@
 - 2026-08-24T21:35:10+0200 [USER] Change the application executable name from lowercase `railmania` to `Railmania`.
 - 2026-08-24T21:35:10+0200 [CODE] Forge and cross-platform packaged smoke paths now use the `Railmania` executable name. Lowercase machine identifiers remain unchanged.
 - 2026-08-24T21:35:10+0200 [TOOL] Bundle name, display name, and executable all read `Railmania`; full verify, fuse readback, and deep signature verification passed.
+- 2026-08-24T21:43:14+0200 [USER] Start fullscreen and add a unique light-themed loading animation inspired by 2010-era simulation games, without neon or cyberpunk styling.
+- 2026-08-24T21:43:14+0200 [CODE] Added a warm paper, steel-blue, muted-red switchyard intro with animated rail routes, logo reveal, route switch, progress marker, staged status text, and reduced-motion behavior. Window now starts fullscreen.
+- 2026-08-24T21:43:14+0200 [TOOL] Split type checks, zero-vulnerability audit, production package, real fullscreen launch, packaged renderer smoke, fuse readback, and deep signature verification passed. macOS denied automated screen capture permission.

@@ -6,7 +6,54 @@
     <title>Railmania</title>
   </head>
   <body>
-    <main id="app"></main>
+    <main id="app">
+      <section class="game-stage" aria-label="Railmania game"></section>
+
+      <section class="startup" aria-labelledby="startup-title">
+        <div class="startup__wash" aria-hidden="true"></div>
+
+        <svg class="switchyard" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+          <g class="route route--left">
+            <path class="route__bed" pathLength="1" d="M800 980 C790 700 620 560 360 420 C225 347 145 230 85 45" />
+            <path class="route__inlay" pathLength="1" d="M800 980 C790 700 620 560 360 420 C225 347 145 230 85 45" />
+            <path class="route__rail" pathLength="1" d="M800 980 C790 700 620 560 360 420 C225 347 145 230 85 45" />
+          </g>
+          <g class="route route--center">
+            <path class="route__bed" pathLength="1" d="M800 980 C800 720 800 390 800 -80" />
+            <path class="route__inlay" pathLength="1" d="M800 980 C800 720 800 390 800 -80" />
+            <path class="route__rail" pathLength="1" d="M800 980 C800 720 800 390 800 -80" />
+          </g>
+          <g class="route route--right">
+            <path class="route__bed" pathLength="1" d="M800 980 C810 700 980 560 1240 420 C1375 347 1455 230 1515 45" />
+            <path class="route__inlay" pathLength="1" d="M800 980 C810 700 980 560 1240 420 C1375 347 1455 230 1515 45" />
+            <path class="route__rail" pathLength="1" d="M800 980 C810 700 980 560 1240 420 C1375 347 1455 230 1515 45" />
+          </g>
+        </svg>
+
+        <div class="brand">
+          <div class="brand__emblem">
+            <div class="brand__dial" aria-hidden="true"></div>
+            <div class="brand__signal brand__signal--left" aria-hidden="true"></div>
+            <div class="brand__signal brand__signal--right" aria-hidden="true"></div>
+            <img id="startup-logo" class="brand__logo" src="/src/assets/railmania-logo.png" alt="Railmania emblem" draggable="false" />
+            <div class="brand__switch" aria-hidden="true"></div>
+          </div>
+
+          <div class="brand__copy">
+            <p class="brand__eyebrow">Railway management simulation</p>
+            <h1 id="startup-title">Railmania</h1>
+            <div class="brand__rule" aria-hidden="true"><span></span></div>
+          </div>
+
+          <div class="loader" aria-hidden="true">
+            <span class="loader__track"></span>
+            <span class="loader__fill"></span>
+            <span class="loader__marker"></span>
+          </div>
+          <p id="startup-status" class="startup__status" aria-live="polite">Preparing railway operations</p>
+        </div>
+      </section>
+    </main>
     <script type="module" src="/src/renderer.ts"></script>
   </body>
 </html>

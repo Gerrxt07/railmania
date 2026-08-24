@@ -28,3 +28,7 @@
 - 2026-08-24T17:40:24+0200 [DISCOVERY] Local ad-hoc hardened runtime caused nested Electron framework library validation failure. Browser-specific V8 snapshot fuse also caused startup failure because no custom snapshot was shipped.
 - 2026-08-24T17:40:24+0200 [CODE] Local ad-hoc package omits hardened runtime; Developer ID builds can use `RAILMANIA_MAC_SIGN_IDENTITY`. Browser-specific V8 snapshot fuse is explicitly disabled.
 - 2026-08-24T17:40:24+0200 [TOOL] Corrected package passed deep strict signature verification, fuse readback, ASAR integrity, and repeatable five-second process-survival smoke test with empty logs.
+- 2026-08-24T17:49:53+0200 [USER] Packaged app showed `require is not defined in ES module scope` from `.vite/build/main.js`.
+- 2026-08-24T17:49:53+0200 [DISCOVERY] Vite emitted CommonJS main code while package `type` marked `.js` as ESM. Earlier survival-only smoke test could miss an Electron error dialog.
+- 2026-08-24T17:49:53+0200 [CODE] Main bundle now has explicit CommonJS format and `.cjs` extension. Smoke test enables Electron logs and rejects reported JavaScript startup errors.
+- 2026-08-24T17:49:53+0200 [TOOL] Type check, package build, ASAR entry check, deep code-sign check, fuse readback, diff check, and five-second packaged launch passed.

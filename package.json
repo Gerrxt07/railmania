@@ -10,7 +10,7 @@
   "trustedDependencies": [
     "electron"
   ],
-  "main": ".vite/build/main.js",
+  "main": ".vite/build/main.cjs",
   "scripts": {
     "start": "electron-forge start",
     "check": "tsc --noEmit",

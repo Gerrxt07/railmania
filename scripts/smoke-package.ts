@@ -23,6 +23,10 @@ if (!existsSync(executable)) {
 }
 
 const child = spawn(executable, [], {
+  env: {
+    ...process.env,
+    ELECTRON_ENABLE_LOGGING: '1',
+  },
   stdio: ['ignore', 'pipe', 'pipe'],
 });
 
@@ -48,6 +52,11 @@ if (result !== 'survived') {
   throw new Error(
     `Packaged app exited before five seconds (code=${String(result.code)}, signal=${String(result.signal)}).\n${output}`,
   );
+}
+
+if (/uncaught exception|javascript error occurred/i.test(output)) {
+  child.kill('SIGTERM');
+  throw new Error(`Packaged app reported a JavaScript startup error.\n${output}`);
 }
 
 const stopped = once(child, 'exit');

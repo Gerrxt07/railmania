@@ -64,3 +64,6 @@
 - 2026-08-24T21:30:12+0200 [USER] Use the supplied Railmania logo as the application icon.
 - 2026-08-24T21:30:12+0200 [CODE] Logo master moved to `build-resources`; a reproducible Bun script builds a multi-size macOS ICNS, and Forge now applies it to the app bundle.
 - 2026-08-24T21:30:12+0200 [TOOL] Icon readback and packaged checksum matched. Full verify, renderer launch, blocked-switch test, fuse readback, and deep signature verification passed.
+- 2026-08-24T21:35:10+0200 [USER] Change the application executable name from lowercase `railmania` to `Railmania`.
+- 2026-08-24T21:35:10+0200 [CODE] Forge and cross-platform packaged smoke paths now use the `Railmania` executable name. Lowercase machine identifiers remain unchanged.
+- 2026-08-24T21:35:10+0200 [TOOL] Bundle name, display name, and executable all read `Railmania`; full verify, fuse readback, and deep signature verification passed.

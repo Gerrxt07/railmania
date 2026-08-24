@@ -15,14 +15,14 @@ function packagedExecutable(): string {
   const packageRoot = resolve(`out/Railmania-${process.platform}-${process.arch}`);
 
   if (process.platform === 'darwin') {
-    return join(packageRoot, 'Railmania.app', 'Contents', 'MacOS', 'railmania');
+    return join(packageRoot, 'Railmania.app', 'Contents', 'MacOS', 'Railmania');
   }
 
   if (process.platform === 'win32') {
-    return join(packageRoot, 'railmania.exe');
+    return join(packageRoot, 'Railmania.exe');
   }
 
-  return join(packageRoot, 'railmania');
+  return join(packageRoot, 'Railmania');
 }
 
 const executable = packagedExecutable();

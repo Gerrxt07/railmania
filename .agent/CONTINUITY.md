@@ -58,3 +58,6 @@
 - 2026-08-24T19:11:44+0200 [USER] Add stricter shared TypeScript checks for overrides, returns, switch fallthrough, index signatures, unused code, and forced module detection.
 - 2026-08-24T19:11:44+0200 [CODE] Added all requested TypeScript rules. Signing environment access now uses bracket notation required by `noPropertyAccessFromIndexSignature`.
 - 2026-08-24T19:11:44+0200 [TOOL] Full `bun run verify` passed with the stricter TypeScript base and no known vulnerabilities.
+- 2026-08-24T21:23:35+0200 [USER] Remove the remaining internal `file:` protocol allowance.
+- 2026-08-24T21:23:35+0200 [CODE] Custom protocol assets now use direct ASAR-aware file reads with an explicit MIME allowlist. All session `file:` requests are denied.
+- 2026-08-24T21:23:35+0200 [TOOL] Type checks, zero-vulnerability audit, production package, packaged renderer smoke test, dangerous-switch test, fuse readback, and deep signature verification passed.

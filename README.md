@@ -29,7 +29,7 @@ Type checks are split: `tsconfig.main.json` has Node types for Electron and buil
 - Context isolation enabled.
 - Node integration disabled.
 - No preload bridge or IPC API.
-- Local custom protocol instead of `file://` in production.
+- Local custom protocol instead of `file://` in production. Approved asset types are read directly from ASAR; `file:` requests are always denied.
 - Static protocol is GET-only and rejects malformed encoding, invalid authority fields, NUL bytes, and path traversal.
 - Downloads and network access are denied by default. Only packaged app resources or the exact Vite development host are allowed.
 - Global rules deny popups, webviews, external navigation, redirects, Bluetooth selection, context menus, and DevTools for every `WebContents`.

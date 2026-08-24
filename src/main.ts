@@ -1,10 +1,27 @@
-import { app, BrowserWindow, Menu, net, protocol, session } from 'electron';
-import { isAbsolute, normalize, relative, resolve, sep } from 'node:path';
-import { pathToFileURL } from 'node:url';
+import { app, BrowserWindow, Menu, protocol, session } from 'electron';
+import { readFile } from 'node:fs/promises';
+import { extname, isAbsolute, normalize, relative, resolve, sep } from 'node:path';
 
 const APP_SCHEME = 'railmania';
 const APP_HOST = 'app';
 const PRODUCTION_ORIGIN = `${APP_SCHEME}://${APP_HOST}`;
+const CONTENT_TYPES = new Map<string, string>([
+  ['.css', 'text/css; charset=utf-8'],
+  ['.html', 'text/html; charset=utf-8'],
+  ['.js', 'text/javascript; charset=utf-8'],
+  ['.json', 'application/json; charset=utf-8'],
+  ['.wasm', 'application/wasm'],
+  ['.avif', 'image/avif'],
+  ['.gif', 'image/gif'],
+  ['.ico', 'image/x-icon'],
+  ['.jpeg', 'image/jpeg'],
+  ['.jpg', 'image/jpeg'],
+  ['.png', 'image/png'],
+  ['.svg', 'image/svg+xml'],
+  ['.webp', 'image/webp'],
+  ['.woff', 'font/woff'],
+  ['.woff2', 'font/woff2'],
+]);
 const BLOCKED_CONSOLE_METHODS = ['debug', 'error', 'info', 'log', 'trace', 'warn'] as const;
 const BLOCKED_LAUNCH_SWITCHES = new Set([
   'allow-file-access-from-files',
@@ -115,12 +132,11 @@ function isTrustedUrl(rawUrl: string): boolean {
   }
 }
 
-function isAllowedNetworkRequest(rawUrl: string, hasWebContents: boolean): boolean {
+function isAllowedNetworkRequest(rawUrl: string): boolean {
   try {
     const url = new URL(rawUrl);
 
     if (isAppUrl(url)) return true;
-    if (url.protocol === 'file:' && !hasWebContents) return true;
     if (app.isPackaged || MAIN_WINDOW_VITE_DEV_SERVER_URL === undefined) return false;
 
     const developmentUrl = new URL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
@@ -151,7 +167,7 @@ function configureSession(currentSession: Electron.Session): void {
 
   currentSession.webRequest.onBeforeRequest((details, callback) => {
     callback({
-      cancel: !isAllowedNetworkRequest(details.url, details.webContentsId !== undefined),
+      cancel: !isAllowedNetworkRequest(details.url),
     });
   });
 
@@ -224,8 +240,17 @@ function registerAppProtocol(): void {
       return new Response(null, { status: 404 });
     }
 
+    const contentType = CONTENT_TYPES.get(extname(filePath).toLowerCase());
+    if (contentType === undefined) return new Response(null, { status: 415 });
+
     try {
-      return await net.fetch(pathToFileURL(filePath).toString());
+      const body = await readFile(filePath);
+      return new Response(Uint8Array.from(body), {
+        status: 200,
+        headers: {
+          'Content-Type': contentType,
+        },
+      });
     } catch {
       return new Response(null, { status: 404 });
     }

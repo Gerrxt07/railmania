@@ -55,3 +55,6 @@
 - 2026-08-24T19:10:30+0200 [USER] Add the packaged smoke check to the `verify` script.
 - 2026-08-24T19:10:30+0200 [CODE] `verify` now runs type checks, dependency audit, production package, and external packaged smoke test in sequence.
 - 2026-08-24T19:10:30+0200 [TOOL] Full `bun run verify` passed with no known vulnerabilities.
+- 2026-08-24T19:11:44+0200 [USER] Add stricter shared TypeScript checks for overrides, returns, switch fallthrough, index signatures, unused code, and forced module detection.
+- 2026-08-24T19:11:44+0200 [CODE] Added all requested TypeScript rules. Signing environment access now uses bracket notation required by `noPropertyAccessFromIndexSignature`.
+- 2026-08-24T19:11:44+0200 [TOOL] Full `bun run verify` passed with the stricter TypeScript base and no known vulnerabilities.

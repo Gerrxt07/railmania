@@ -7,7 +7,7 @@ import { join } from 'node:path';
 import { promisify } from 'node:util';
 
 const execFileAsync = promisify(execFile);
-const macSigningIdentity = process.env.RAILMANIA_MAC_SIGN_IDENTITY;
+const macSigningIdentity = process.env['RAILMANIA_MAC_SIGN_IDENTITY'];
 
 const config: ForgeConfig = {
   packagerConfig: {

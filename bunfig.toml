@@ -1,0 +1,28 @@
+telemetry = false
+env = false
+
+[install]
+auto = "disable"
+exact = true
+prefer = "latest"
+linker = "isolated"
+globalStore = true
+hoist = false
+saveTextLockfile = true
+optional = true
+dev = true
+peer = true
+production = false
+ignoreScripts = false
+
+[install.lockfile]
+save = true
+
+[install.cache]
+disable = false
+disableManifest = false
+
+[run]
+shell = "bun"
+silent = false
+noOrphans = true

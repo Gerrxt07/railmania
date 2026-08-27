@@ -69,31 +69,31 @@ select {
 
 @keyframes title-drop {
   0% {
-    transform: translate(-50%, calc(-100% - 6vh)) rotate(-4deg);
+    transform: translate(-50%, calc(-100% - 6vh));
   }
 
   46% {
-    transform: translate(-50%, 24px) rotate(2.5deg) scaleX(1.035) scaleY(0.94);
+    transform: translate(-50%, 24px) scaleX(1.035) scaleY(0.94);
   }
 
   60% {
-    transform: translate(-50%, -24px) rotate(-2deg) scaleX(0.982) scaleY(1.025);
+    transform: translate(-50%, -24px) scaleX(0.982) scaleY(1.025);
   }
 
   72% {
-    transform: translate(-50%, 12px) rotate(1.2deg) scaleX(1.014) scaleY(0.98);
+    transform: translate(-50%, 12px) scaleX(1.014) scaleY(0.98);
   }
 
   82% {
-    transform: translate(-50%, -8px) rotate(-0.7deg) scaleX(0.995) scaleY(1.008);
+    transform: translate(-50%, -8px) scaleX(0.995) scaleY(1.008);
   }
 
   90% {
-    transform: translate(-50%, 4px) rotate(0.35deg);
+    transform: translate(-50%, 4px);
   }
 
   96% {
-    transform: translate(-50%, -2px) rotate(-0.15deg);
+    transform: translate(-50%, -2px);
   }
 
   100% {

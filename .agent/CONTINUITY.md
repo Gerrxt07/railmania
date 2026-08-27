@@ -14,6 +14,7 @@
 - 2026-08-27T23:31:11+0200 [CODE] Made settled title an accessible button. Click, Enter, or Space replays a short two-hop bounce with subtle flex; reduced-motion mode uses a 4px hop.
 - 2026-08-27T23:32:57+0200 [CODE] Added quiet menu footer with `Made by Gerrxt` at bottom left and build-injected package version at bottom right, with rounded fallback fonts and a soft load fade.
 - 2026-08-27T23:36:34+0200 [CODE] Reduced title click target to a centered 75% by 75% overlay while preserving full visual size, bounce animation, hover response, and keyboard access.
+- 2026-08-27T23:39:45+0200 [CODE] Replaced default pointer with a centered-hotspot 32px SVG donut cursor using cream, navy, teal, gold, highlight, and high-contrast shadow from the app palette.
 
 ## [DECISIONS]
 
@@ -44,6 +45,7 @@
 - 2026-08-27T23:31:11+0200 [TOOL] Type checks, production package build, and diff check passed for interactive title bounce.
 - 2026-08-27T23:32:57+0200 [TOOL] Type checks, production package build, generated version readback, author text readback, and diff check passed for menu footer.
 - 2026-08-27T23:36:34+0200 [TOOL] Type checks, production package build, and diff check passed for reduced title hit area.
+- 2026-08-27T23:39:45+0200 [TOOL] SVG validation, type checks, production package build, generated cursor data readback, and diff check passed for custom cursor.
 - 2026-08-24T17:35:12+0200 [TOOL] Type check, dependency freshness check, frozen Bun install, Bun audit, production package, ASAR integrity, fuse readback, and static macOS signature verification passed. Initial smoke command did not validate process survival.
 - 2026-08-24T17:35:12+0200 [TOOL] Bun audit reported no known vulnerabilities. Packaged renderer contains no source maps, loose app directory, `eval(`, or `Function(` calls.
 - 2026-08-24T17:40:24+0200 [USER] Crash report showed dyld rejecting mixed ad-hoc Team IDs under hardened library validation.

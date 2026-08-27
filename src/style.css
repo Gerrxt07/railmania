@@ -1,4 +1,6 @@
 :root {
+  --railmania-cursor: url("./assets/railmania-cursor.svg") 16 16, default;
+  --railmania-action-cursor: url("./assets/railmania-cursor.svg") 16 16, pointer;
   color-scheme: light;
   font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   background: #000;
@@ -20,6 +22,7 @@ body,
 body {
   overflow: hidden;
   background: #000;
+  cursor: var(--railmania-cursor);
   user-select: none;
 }
 
@@ -79,7 +82,7 @@ select {
 }
 
 .menu-title--settled .menu-title__hitbox {
-  cursor: pointer;
+  cursor: var(--railmania-action-cursor);
   pointer-events: auto;
 }
 

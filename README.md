@@ -2,7 +2,7 @@
 
 Minimal Electron base for Railmania. App has no game content yet.
 
-The app starts fullscreen on the game grid.
+The app starts fullscreen and fades smoothly from black into the game grid.
 
 ## Commands
 

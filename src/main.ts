@@ -265,7 +265,7 @@ function createWindow(): BrowserWindow {
     minHeight: 640,
     show: false,
     fullscreen: true,
-    backgroundColor: '#f4f0e6',
+    backgroundColor: '#000000',
     autoHideMenuBar: true,
     title: 'Railmania',
     webPreferences: {

@@ -7,6 +7,7 @@
 - 2026-08-27T22:20:30+0200 [CODE] Native window and page now start black, then the game grid fades in over 1.6 seconds with a short reduced-motion variant.
 - 2026-08-27T22:53:06+0200 [CODE] Added one-command `bun run release` pipeline for macOS ARM64 and Windows x64 with frozen install, checks, audit, production obfuscation/package, ASAR and fuse validation, host smoke test, and macOS signature validation.
 - 2026-08-27T23:17:37+0200 [CODE] Added supplied title to menu at 10vh with an off-screen fall and soft bounce entrance. Synced supplied logo into package assets and rebuilt macOS and Windows icons.
+- 2026-08-27T23:19:38+0200 [CODE] Refined menu title to a smaller responsive size at 3vh with stronger squash, lift, and playful tilt across several settling bounces.
 
 ## [DECISIONS]
 
@@ -30,6 +31,7 @@
 - 2026-08-27T22:20:30+0200 [TOOL] Type checks, production package, packaged renderer smoke test, and diff check passed for the black-to-grid fade.
 - 2026-08-27T22:53:06+0200 [TOOL] Full release pipeline passed for macOS ARM64 and Windows x64. Both artifacts passed ASAR and fuse checks; macOS launch smoke and signature verification passed. Vulnerability audit found no known issues.
 - 2026-08-27T23:17:37+0200 [TOOL] Full release pipeline passed with supplied title and logo assets for macOS ARM64 and Windows x64; audit found no known vulnerabilities.
+- 2026-08-27T23:19:38+0200 [TOOL] Full verify passed after title size, position, and bounce refinement; audit found no known vulnerabilities.
 - 2026-08-24T17:35:12+0200 [TOOL] Type check, dependency freshness check, frozen Bun install, Bun audit, production package, ASAR integrity, fuse readback, and static macOS signature verification passed. Initial smoke command did not validate process survival.
 - 2026-08-24T17:35:12+0200 [TOOL] Bun audit reported no known vulnerabilities. Packaged renderer contains no source maps, loose app directory, `eval(`, or `Function(` calls.
 - 2026-08-24T17:40:24+0200 [USER] Crash report showed dyld rejecting mixed ad-hoc Team IDs under hardened library validation.

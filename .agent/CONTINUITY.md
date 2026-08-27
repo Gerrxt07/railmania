@@ -10,6 +10,7 @@
 - 2026-08-27T23:19:38+0200 [CODE] Refined menu title to a smaller responsive size at 3vh with stronger squash, lift, and playful tilt across several settling bounces.
 - 2026-08-27T23:21:26+0200 [CODE] Removed title rotation from every bounce frame so left and right edges move evenly while centered squash and lift remain.
 - 2026-08-27T23:23:55+0200 [CODE] Replaced title squash/stretch with rigid vertical trampoline motion: one accelerated fall followed by 56px, 26px, and 9px decaying hops.
+- 2026-08-27T23:25:19+0200 [CODE] Kept trampoline path and added subtle symmetric flex: 1.2%, 0.7%, and 0.3% landing squash with smaller apex recovery.
 
 ## [DECISIONS]
 
@@ -36,6 +37,7 @@
 - 2026-08-27T23:19:38+0200 [TOOL] Full verify passed after title size, position, and bounce refinement; audit found no known vulnerabilities.
 - 2026-08-27T23:21:26+0200 [TOOL] Type checks, vulnerability audit, package build, and diff check passed for balanced title bounce. Smoke launch was blocked by an already-running Railmania instance.
 - 2026-08-27T23:23:55+0200 [TOOL] Type checks, production package build, and diff check passed for rigid trampoline-style title motion.
+- 2026-08-27T23:25:19+0200 [TOOL] Type checks, production package build, and diff check passed for subtle title flex. Smoke remained unavailable while Railmania was open.
 - 2026-08-24T17:35:12+0200 [TOOL] Type check, dependency freshness check, frozen Bun install, Bun audit, production package, ASAR integrity, fuse readback, and static macOS signature verification passed. Initial smoke command did not validate process survival.
 - 2026-08-24T17:35:12+0200 [TOOL] Bun audit reported no known vulnerabilities. Packaged renderer contains no source maps, loose app directory, `eval(`, or `Function(` calls.
 - 2026-08-24T17:40:24+0200 [USER] Crash report showed dyld rejecting mixed ad-hoc Team IDs under hardened library validation.

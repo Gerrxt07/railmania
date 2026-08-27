@@ -12,6 +12,7 @@
 - 2026-08-27T23:23:55+0200 [CODE] Replaced title squash/stretch with rigid vertical trampoline motion: one accelerated fall followed by 56px, 26px, and 9px decaying hops.
 - 2026-08-27T23:25:19+0200 [CODE] Kept trampoline path and added subtle symmetric flex: 1.2%, 0.7%, and 0.3% landing squash with smaller apex recovery.
 - 2026-08-27T23:31:11+0200 [CODE] Made settled title an accessible button. Click, Enter, or Space replays a short two-hop bounce with subtle flex; reduced-motion mode uses a 4px hop.
+- 2026-08-27T23:32:57+0200 [CODE] Added quiet menu footer with `Made by Gerrxt` at bottom left and build-injected package version at bottom right, with rounded fallback fonts and a soft load fade.
 
 ## [DECISIONS]
 
@@ -40,6 +41,7 @@
 - 2026-08-27T23:23:55+0200 [TOOL] Type checks, production package build, and diff check passed for rigid trampoline-style title motion.
 - 2026-08-27T23:25:19+0200 [TOOL] Type checks, production package build, and diff check passed for subtle title flex. Smoke remained unavailable while Railmania was open.
 - 2026-08-27T23:31:11+0200 [TOOL] Type checks, production package build, and diff check passed for interactive title bounce.
+- 2026-08-27T23:32:57+0200 [TOOL] Type checks, production package build, generated version readback, author text readback, and diff check passed for menu footer.
 - 2026-08-24T17:35:12+0200 [TOOL] Type check, dependency freshness check, frozen Bun install, Bun audit, production package, ASAR integrity, fuse readback, and static macOS signature verification passed. Initial smoke command did not validate process survival.
 - 2026-08-24T17:35:12+0200 [TOOL] Bun audit reported no known vulnerabilities. Packaged renderer contains no source maps, loose app directory, `eval(`, or `Function(` calls.
 - 2026-08-24T17:40:24+0200 [USER] Crash report showed dyld rejecting mixed ad-hoc Team IDs under hardened library validation.

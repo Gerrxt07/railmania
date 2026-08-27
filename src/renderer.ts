@@ -11,8 +11,16 @@ for (const method of blockedConsoleMethods) {
 }
 Object.freeze(console);
 
-const menuTitle = document.querySelector<HTMLButtonElement>('.menu-title');
-if (menuTitle === null) throw new Error('Missing menu title');
+function getRequiredElement<ElementType extends Element>(selector: string): ElementType {
+  const element = document.querySelector<ElementType>(selector);
+  if (element === null) throw new Error(`Missing element: ${selector}`);
+  return element;
+}
+
+const menuTitle = getRequiredElement<HTMLButtonElement>('.menu-title');
+const versionLabel = getRequiredElement<HTMLElement>('#app-version');
+versionLabel.textContent = `v${RAILMANIA_APP_VERSION}`;
+versionLabel.setAttribute('aria-label', `Version ${RAILMANIA_APP_VERSION}`);
 
 menuTitle.addEventListener('animationend', (event) => {
   if (event.animationName === 'title-drop' || event.animationName === 'title-appear') {

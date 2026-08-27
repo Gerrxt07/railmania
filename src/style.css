@@ -49,10 +49,6 @@ select {
   top: 3vh;
   left: 50%;
   display: block;
-  padding: 0;
-  border: 0;
-  appearance: none;
-  background: transparent;
   pointer-events: none;
   filter: drop-shadow(0 8px 10px rgba(31, 43, 52, 0.2));
   animation: title-drop 1.7s 450ms linear both;
@@ -66,18 +62,32 @@ select {
   pointer-events: none;
 }
 
+.menu-title__hitbox {
+  position: absolute;
+  z-index: 1;
+  inset: 12.5%;
+  padding: 0;
+  border: 0;
+  appearance: none;
+  background: transparent;
+  pointer-events: none;
+}
+
 .menu-title--settled {
-  cursor: pointer;
-  pointer-events: auto;
   transform: translate(-50%, 0);
   animation: none;
+}
+
+.menu-title--settled .menu-title__hitbox {
+  cursor: pointer;
+  pointer-events: auto;
 }
 
 .menu-title--settled:hover {
   filter: drop-shadow(0 10px 12px rgba(31, 43, 52, 0.24)) brightness(1.025);
 }
 
-.menu-title--settled:focus-visible {
+.menu-title__hitbox:focus-visible {
   outline: 2px solid rgba(22, 99, 154, 0.72);
   outline-offset: 5px;
 }

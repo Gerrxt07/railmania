@@ -17,7 +17,8 @@ function getRequiredElement<ElementType extends Element>(selector: string): Elem
   return element;
 }
 
-const menuTitle = getRequiredElement<HTMLButtonElement>('.menu-title');
+const menuTitle = getRequiredElement<HTMLElement>('.menu-title');
+const menuTitleHitbox = getRequiredElement<HTMLButtonElement>('.menu-title__hitbox');
 const versionLabel = getRequiredElement<HTMLElement>('#app-version');
 versionLabel.textContent = `v${RAILMANIA_APP_VERSION}`;
 versionLabel.setAttribute('aria-label', `Version ${RAILMANIA_APP_VERSION}`);
@@ -25,7 +26,7 @@ versionLabel.setAttribute('aria-label', `Version ${RAILMANIA_APP_VERSION}`);
 menuTitle.addEventListener('animationend', (event) => {
   if (event.animationName === 'title-drop' || event.animationName === 'title-appear') {
     menuTitle.classList.add('menu-title--settled');
-    menuTitle.disabled = false;
+    menuTitleHitbox.disabled = false;
   }
 
   if (
@@ -36,7 +37,7 @@ menuTitle.addEventListener('animationend', (event) => {
   }
 });
 
-menuTitle.addEventListener('click', () => {
+menuTitleHitbox.addEventListener('click', () => {
   if (!menuTitle.classList.contains('menu-title--settled')) return;
 
   menuTitle.classList.remove('menu-title--clicked');

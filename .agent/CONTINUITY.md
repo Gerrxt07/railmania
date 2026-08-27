@@ -3,6 +3,7 @@
 ## [PROGRESS]
 
 - 2026-08-24T17:09:26+0200 [CODE] Minimal Electron base is being created with no game content.
+- 2026-08-27T22:16:45+0200 [CODE] Removed startup markup, timing code, animation styles, and unused Three.js startup dependencies. App now renders the game grid on first paint.
 
 ## [DECISIONS]
 
@@ -22,6 +23,7 @@
 
 ## [OUTCOMES]
 
+- 2026-08-27T22:16:45+0200 [TOOL] Type checks, production package, packaged renderer smoke test, and diff check passed after startup removal.
 - 2026-08-24T17:35:12+0200 [TOOL] Type check, dependency freshness check, frozen Bun install, Bun audit, production package, ASAR integrity, fuse readback, and static macOS signature verification passed. Initial smoke command did not validate process survival.
 - 2026-08-24T17:35:12+0200 [TOOL] Bun audit reported no known vulnerabilities. Packaged renderer contains no source maps, loose app directory, `eval(`, or `Function(` calls.
 - 2026-08-24T17:40:24+0200 [USER] Crash report showed dyld rejecting mixed ad-hoc Team IDs under hardened library validation.

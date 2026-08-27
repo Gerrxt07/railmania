@@ -15,7 +15,7 @@ const config: ForgeConfig = {
     appCategoryType: 'public.app-category.games',
     asar: true,
     executableName: 'Railmania',
-    icon: 'build-resources/railmania.icns',
+    icon: 'build-resources/railmania',
     name: 'Railmania',
     ...(macSigningIdentity === undefined
       ? {}
@@ -29,7 +29,11 @@ const config: ForgeConfig = {
   makers: [],
   hooks: {
     postPackage: async (_forgeConfig, packageResult) => {
-      if (packageResult.platform !== 'darwin' || macSigningIdentity !== undefined) return;
+      if (
+        process.platform !== 'darwin' ||
+        packageResult.platform !== 'darwin' ||
+        macSigningIdentity !== undefined
+      ) return;
 
       for (const outputPath of packageResult.outputPaths) {
         const appPath = outputPath.endsWith('.app')

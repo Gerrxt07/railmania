@@ -15,11 +15,16 @@ bun run audit
 bun run package
 bun run smoke:package
 bun run verify
+bun run release
 ```
 
 Production packages are written to `out/`.
 
-App icon source lives at `build-resources/railmania-logo.png`. Rebuild the macOS icon with `bun run icon:build` after changing the source.
+App icon source lives at `build-resources/railmania-logo.png`. Rebuild the macOS and Windows icons with `bun run icon:build` on macOS after changing the source.
+
+`bun run release` is the full cross-platform pipeline. It removes generated `out/` files, performs a frozen install, checks types and dependency freshness, runs the vulnerability audit and Git whitespace check, then creates obfuscated and hardened packages for macOS Apple Silicon and Windows x64. Every package is checked for ASAR output and the expected Electron fuse states. macOS signatures are verified when building on macOS. The package matching the current host also gets the full launch smoke test.
+
+Run the release command on macOS when producing signed macOS artifacts. Set `RAILMANIA_MAC_SIGN_IDENTITY` to use a Developer ID identity. Windows artifacts are currently unsigned and must not be published until certificate-based Windows signing is configured.
 
 `bun run smoke:package` starts the packaged executable directly and observes its process tree for a renderer. Test mode is not exposed inside the app. The check catches dyld, signature, fuse, main-process, and early renderer startup failures.
 

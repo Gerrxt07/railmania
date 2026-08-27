@@ -49,9 +49,41 @@ select {
   top: 3vh;
   left: 50%;
   display: block;
+  padding: 0;
+  border: 0;
+  appearance: none;
+  background: transparent;
   pointer-events: none;
   filter: drop-shadow(0 8px 10px rgba(31, 43, 52, 0.2));
   animation: title-drop 1.7s 450ms linear both;
+  transition: filter 160ms ease;
+}
+
+.menu-title__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+
+.menu-title--settled {
+  cursor: pointer;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+  animation: none;
+}
+
+.menu-title--settled:hover {
+  filter: drop-shadow(0 10px 12px rgba(31, 43, 52, 0.24)) brightness(1.025);
+}
+
+.menu-title--settled:focus-visible {
+  outline: 2px solid rgba(22, 99, 154, 0.72);
+  outline-offset: 5px;
+}
+
+.menu-title--clicked {
+  animation: title-click-bounce 620ms linear both;
 }
 
 @keyframes grid-enter {
@@ -119,6 +151,48 @@ select {
   }
 }
 
+@keyframes title-click-bounce {
+  0% {
+    transform: translate(-50%, 0);
+    animation-timing-function: cubic-bezier(0.12, 0.7, 0.28, 1);
+  }
+
+  28% {
+    transform: translate(-50%, -20px) scaleX(0.997) scaleY(1.004);
+    animation-timing-function: cubic-bezier(0.55, 0, 0.9, 0.42);
+  }
+
+  50% {
+    transform: translate(-50%, 0) scaleX(1.008) scaleY(0.992);
+    animation-timing-function: cubic-bezier(0.12, 0.7, 0.28, 1);
+  }
+
+  69% {
+    transform: translate(-50%, -9px) scaleX(0.999) scaleY(1.002);
+    animation-timing-function: cubic-bezier(0.55, 0, 0.9, 0.42);
+  }
+
+  84% {
+    transform: translate(-50%, 0) scaleX(1.003) scaleY(0.997);
+    animation-timing-function: cubic-bezier(0.12, 0.7, 0.28, 1);
+  }
+
+  100% {
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes title-click-bounce-reduced {
+  0%,
+  100% {
+    transform: translate(-50%, 0);
+  }
+
+  50% {
+    transform: translate(-50%, -4px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .game-stage {
     animation-duration: 250ms;
@@ -127,5 +201,13 @@ select {
 
   .menu-title {
     animation: title-appear 250ms ease-out both;
+  }
+
+  .menu-title--settled {
+    animation: none;
+  }
+
+  .menu-title--clicked {
+    animation: title-click-bounce-reduced 180ms ease-out both;
   }
 }

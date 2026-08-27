@@ -8,12 +8,19 @@
   <body>
     <main id="app">
       <section class="game-stage" aria-label="Railmania game">
-        <img
+        <button
           class="menu-title"
-          src="/src/assets/Railmania-Title.png"
-          alt="Railmania"
-          draggable="false"
-        />
+          type="button"
+          aria-label="Bounce Railmania title"
+          disabled
+        >
+          <img
+            class="menu-title__image"
+            src="/src/assets/Railmania-Title.png"
+            alt=""
+            draggable="false"
+          />
+        </button>
       </section>
     </main>
     <script type="module" src="/src/renderer.ts"></script>

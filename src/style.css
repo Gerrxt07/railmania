@@ -1,6 +1,6 @@
 :root {
-  --railmania-cursor: url("./assets/railmania-cursor.svg") 16 16, default;
-  --railmania-action-cursor: url("./assets/railmania-cursor.svg") 16 16, pointer;
+  --railmania-cursor: url("./assets/railmania-cursor.svg") 12 12, default;
+  --railmania-action-cursor: url("./assets/railmania-cursor.svg") 12 12, pointer;
   color-scheme: light;
   font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   background: #000;

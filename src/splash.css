@@ -1,0 +1,95 @@
+:root {
+  --railmania-cursor: url("./assets/railmania-cursor.svg") 10 10, default;
+  color-scheme: light;
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  overflow: hidden;
+  cursor: var(--railmania-cursor);
+  user-select: none;
+}
+
+.splash-stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background:
+    linear-gradient(rgba(49, 67, 82, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(49, 67, 82, 0.035) 1px, transparent 1px),
+    #e9e7df;
+  background-size: 48px 48px;
+}
+
+.splash-title {
+  margin-top: 52px;
+  width: 270px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 6px 8px rgba(31, 43, 52, 0.18));
+}
+
+.splash-title__image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.splash-loader {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding-bottom: 12px;
+  animation: loader-fade-in 600ms 400ms ease-out both;
+}
+
+.splash-loader__spinner {
+  width: 32px;
+  height: 32px;
+  border: 2.5px solid rgba(49, 67, 82, 0.14);
+  border-top-color: rgba(49, 67, 82, 0.65);
+  border-radius: 50%;
+  animation: spinner-rotate 0.85s linear infinite;
+}
+
+.splash-loader__text {
+  color: rgba(36, 56, 75, 0.56);
+  font-family: "Avenir Next Rounded", "Arial Rounded MT Bold", "Trebuchet MS", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+@keyframes spinner-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loader-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

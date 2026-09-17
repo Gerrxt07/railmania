@@ -1,6 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans&display=swap');
+
 :root {
-  --railmania-cursor: url("./assets/railmania-cursor.svg") 12 12, default;
-  --railmania-action-cursor: url("./assets/railmania-cursor.svg") 12 12, pointer;
+  --railmania-cursor: url("./assets/railmania-cursor.svg") 10 10, default;
+  --railmania-action-cursor: url("./assets/railmania-cursor.svg") 10 10, pointer;
   color-scheme: light;
   font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   background: #000;
@@ -97,6 +99,91 @@ select {
 
 .menu-title--clicked {
   animation: title-click-bounce 620ms linear both;
+}
+
+.menu-nav {
+  position: absolute;
+  z-index: 2;
+  top: 62.5%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(9px, 1.8vh, 25px);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.menu-nav__item {
+  position: relative;
+  width: min(28.6vw, 377px, 35.1vh);
+  padding: 0;
+  border: 0;
+  appearance: none;
+  background: transparent;
+  opacity: 0;
+  filter: drop-shadow(0 4px 6px rgba(31, 43, 52, 0.14));
+  transition: filter 220ms ease, transform 220ms ease;
+  transform: translateY(10px);
+  animation:
+    menu-item-enter 480ms ease-out both,
+    menu-item-idle 2.8s 2.8s ease-in-out infinite;
+  cursor: var(--railmania-action-cursor);
+}
+
+.menu-nav__item:nth-child(1) { animation-delay: 2s, 2.8s; }
+.menu-nav__item:nth-child(2) { animation-delay: 2.1s, 2.9s; }
+.menu-nav__item:nth-child(3) { animation-delay: 2.2s, 3s; }
+.menu-nav__item:nth-child(4) { animation-delay: 2.3s, 3.1s; }
+
+.menu-nav__item:hover {
+  filter: drop-shadow(0 10px 18px rgba(31, 43, 52, 0.28)) brightness(1.1);
+  transform: translateY(-4px) scale(1.06) skewX(-1deg);
+  transition: filter 180ms ease, transform 280ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation-play-state: paused;
+}
+
+.menu-nav__item:active {
+  transform: translateY(1px) scale(0.96) skewX(0);
+  transition: transform 60ms ease;
+  filter: drop-shadow(0 2px 4px rgba(31, 43, 52, 0.08)) brightness(0.95);
+  animation-play-state: paused;
+}
+
+.menu-nav__item:focus-visible {
+  outline: 2px solid rgba(22, 99, 154, 0.72);
+  outline-offset: 4px;
+}
+
+.menu-nav__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+
+.menu-nav__text {
+  display: block;
+  width: 100%;
+  font-family: "Pixelify Sans", "Segoe UI", sans-serif;
+  font-size: clamp(23.4px, 3.12vw, 48px);
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-align: center;
+  color: #24384b;
+  padding: clamp(12px, 1.6vh, 18px) clamp(16px, 2.24vw, 25px);
+  pointer-events: none;
+  transition: color 220ms ease;
+  text-shadow: 0 2px 0 rgba(255, 255, 255, 0.4);
+}
+
+.menu-nav__item:hover .menu-nav__text {
+  color: #1b374e;
+  text-shadow: 0 2px 0 rgba(255, 255, 255, 0.6), 0 0 12px rgba(36, 56, 75, 0.15);
+}
+
+.menu-nav--active {
+  pointer-events: auto;
 }
 
 .menu-footer {
@@ -241,6 +328,28 @@ select {
   }
 }
 
+@keyframes menu-item-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes menu-item-idle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .game-stage {
     animation-duration: 250ms;
@@ -262,5 +371,11 @@ select {
   .menu-footer {
     animation-duration: 200ms;
     animation-delay: 0ms;
+  }
+
+  .menu-nav__item {
+    animation-duration: 200ms;
+    animation-delay: 0ms;
+    animation-name: footer-enter;
   }
 }

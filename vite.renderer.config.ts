@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { hardenedBuild, obfuscateProductionBundle } from './vite.shared.config.js';
 
 const packageMetadata = JSON.parse(
@@ -14,6 +15,12 @@ export default defineConfig(({ mode }) => ({
   build: {
     ...hardenedBuild,
     target: 'chrome150',
+    rollupOptions: {
+      input: {
+        main: resolve(import.meta.dirname, 'index.html'),
+        splash: resolve(import.meta.dirname, 'splash.html'),
+      },
+    },
   },
   define: {
     RAILMANIA_APP_VERSION: JSON.stringify(packageMetadata.version),

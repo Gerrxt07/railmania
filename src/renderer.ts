@@ -19,6 +19,8 @@ function getRequiredElement<ElementType extends Element>(selector: string): Elem
 
 const menuTitle = getRequiredElement<HTMLElement>('.menu-title');
 const menuTitleHitbox = getRequiredElement<HTMLButtonElement>('.menu-title__hitbox');
+const menuNav = getRequiredElement<HTMLElement>('.menu-nav');
+const menuItems = menuNav.querySelectorAll<HTMLButtonElement>('.menu-nav__item');
 const versionLabel = getRequiredElement<HTMLElement>('#app-version');
 versionLabel.textContent = `v${RAILMANIA_APP_VERSION}`;
 versionLabel.setAttribute('aria-label', `Version ${RAILMANIA_APP_VERSION}`);
@@ -27,6 +29,7 @@ menuTitle.addEventListener('animationend', (event) => {
   if (event.animationName === 'title-drop' || event.animationName === 'title-appear') {
     menuTitle.classList.add('menu-title--settled');
     menuTitleHitbox.disabled = false;
+    menuNav.classList.add('menu-nav--active');
   }
 
   if (
@@ -44,3 +47,10 @@ menuTitleHitbox.addEventListener('click', () => {
   void menuTitle.offsetWidth;
   menuTitle.classList.add('menu-title--clicked');
 });
+
+for (const item of menuItems) {
+  item.addEventListener('click', () => {
+    const action = item.dataset['action'];
+    if (action === 'quit') window.close();
+  });
+}

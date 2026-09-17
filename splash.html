@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Railmania</title>
+  </head>
+  <body>
+    <main id="app">
+      <section class="splash-stage" aria-label="Railmania loading">
+        <div class="splash-title">
+          <img
+            class="splash-title__image"
+            src="/src/assets/Railmania-Title.png"
+            alt="Railmania"
+            draggable="false"
+          />
+        </div>
+
+        <div class="splash-loader" aria-label="Loading">
+          <div class="splash-loader__spinner"></div>
+          <span class="splash-loader__text">Connecting…</span>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="/src/splash.ts"></script>
+  </body>
+</html>

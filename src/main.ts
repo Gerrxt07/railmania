@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, protocol, session } from 'electron';
+import { app, BrowserWindow, Menu, protocol, screen, session } from 'electron';
 import { readFile } from 'node:fs/promises';
 import { extname, isAbsolute, normalize, relative, resolve, sep } from 'node:path';
 
@@ -137,6 +137,10 @@ function isAllowedNetworkRequest(rawUrl: string): boolean {
     const url = new URL(rawUrl);
 
     if (isAppUrl(url)) return true;
+
+    const googleFontsHosts = new Set(['fonts.googleapis.com', 'fonts.gstatic.com']);
+    if (googleFontsHosts.has(url.hostname) && (url.protocol === 'https:')) return true;
+
     if (app.isPackaged || MAIN_WINDOW_VITE_DEV_SERVER_URL === undefined) return false;
 
     const developmentUrl = new URL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
@@ -176,9 +180,9 @@ function configureSession(currentSession: Electron.Session): void {
     const policy = [
       "default-src 'none'",
       "script-src 'self'",
-      "style-src 'self'",
+      "style-src 'self' https://fonts.googleapis.com",
       "img-src 'self' data:",
-      "font-src 'self'",
+      "font-src 'self' https://fonts.gstatic.com",
       `connect-src ${connectSource}`,
       "worker-src 'self'",
       "object-src 'none'",
@@ -257,7 +261,7 @@ function registerAppProtocol(): void {
   });
 }
 
-function createWindow(): BrowserWindow {
+function makeMainWindow(): BrowserWindow {
   const window = new BrowserWindow({
     width: 1280,
     height: 800,
@@ -292,6 +296,55 @@ function createWindow(): BrowserWindow {
   }
 
   return window;
+}
+
+function createSplashAndMain(): void {
+  const { width: screenWidth, height: screenHeight } = screen.getPrimaryDisplay().workAreaSize;
+  const splashWidth = 480;
+  const splashHeight = 360;
+
+  const splashWindow = new BrowserWindow({
+    width: splashWidth,
+    height: splashHeight,
+    x: Math.round((screenWidth - splashWidth) / 2),
+    y: Math.round((screenHeight - splashHeight) / 2),
+    frame: false,
+    resizable: false,
+    show: false,
+    alwaysOnTop: true,
+    backgroundColor: '#e9e7df',
+    autoHideMenuBar: true,
+    title: 'Railmania',
+    webPreferences: {
+      allowRunningInsecureContent: false,
+      contextIsolation: true,
+      devTools: false,
+      experimentalFeatures: false,
+      navigateOnDragDrop: false,
+      nodeIntegration: false,
+      sandbox: true,
+      safeDialogs: true,
+      spellcheck: false,
+      webSecurity: true,
+      webviewTag: false,
+    },
+  });
+
+  splashWindow.once('ready-to-show', () => {
+    splashWindow.show();
+    setTimeout(() => {
+      if (splashWindow.isDestroyed()) return;
+      splashWindow.close();
+      makeMainWindow();
+    }, 3000);
+  });
+
+  if (MAIN_WINDOW_VITE_DEV_SERVER_URL !== undefined && !app.isPackaged) {
+    const devBase = MAIN_WINDOW_VITE_DEV_SERVER_URL.replace(/\/index\.html$/, '').replace(/\/$/, '');
+    void splashWindow.loadURL(`${devBase}/splash.html`);
+  } else {
+    void splashWindow.loadURL(`${PRODUCTION_ORIGIN}/splash.html`);
+  }
 }
 
 if (!app.requestSingleInstanceLock()) {
@@ -331,10 +384,10 @@ if (!app.requestSingleInstanceLock()) {
     Menu.setApplicationMenu(null);
     configureSession(session.defaultSession);
     registerAppProtocol();
-    createWindow();
+    createSplashAndMain();
 
     app.on('activate', () => {
-      if (BrowserWindow.getAllWindows().length === 0) createWindow();
+      if (BrowserWindow.getAllWindows().length === 0) makeMainWindow();
     });
   });
   app.on('window-all-closed', () => {

@@ -89,6 +89,15 @@ function openSettings(): void {
   void Promise.all(animations.map((a) => a.finished)).then(() => {
     gameStage.classList.add(SETTINGS_CLASS);
 
+    settingsPanel.animate([
+      { opacity: 0, transform: 'translate(calc(-50% + 120px), 0)' },
+      { opacity: 1, transform: 'translate(-50%, 0)' },
+    ], {
+      duration: reducedMotion ? 150 : 400,
+      easing: 'cubic-bezier(0.22, 0.72, 0.24, 1)',
+      fill: 'forwards',
+    });
+
     backButton.style.opacity = '0';
     Array.from(settingsPanel.querySelectorAll<HTMLElement>(
       '.settings-panel__heading, .settings-panel__group',
@@ -135,6 +144,15 @@ function closeSettings(): void {
       delay: reducedMotion ? 0 : (contentEls.length - 1 - i) * 30,
     }));
   }
+
+  exitAnims.push(settingsPanel.animate([
+    { opacity: 1, transform: 'translate(-50%, 0)' },
+    { opacity: 0, transform: 'translate(calc(-50% + 120px), 0)' },
+  ], {
+    duration: reducedMotion ? 120 : 320,
+    easing: 'cubic-bezier(0.55, 0, 0.9, 0.42)',
+    fill: 'forwards',
+  }));
 
   void Promise.all(exitAnims.map((a) => a.finished)).then(() => {
     gameStage.classList.remove(SETTINGS_CLASS);

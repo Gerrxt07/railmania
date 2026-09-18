@@ -1,7 +1,7 @@
 {
   "name": "railmania",
   "productName": "Railmania",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Railmania desktop game base",
   "type": "module",
   "private": true,

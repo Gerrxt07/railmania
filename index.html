@@ -23,7 +23,7 @@
           ></button>
         </div>
 
-<nav class="menu-nav" aria-label="Main menu">
+        <nav class="menu-nav" aria-label="Main menu">
           <button class="menu-nav__item" type="button" data-action="new-game">
             <span class="menu-nav__text">New Game</span>
           </button>
@@ -37,6 +37,45 @@
             <span class="menu-nav__text">Quit</span>
           </button>
         </nav>
+
+        <section class="settings-panel" aria-label="Settings">
+          <button class="settings-panel__back" type="button" aria-label="Back to main menu">
+            <span class="settings-panel__back-text">← Back</span>
+          </button>
+
+          <h2 class="settings-panel__heading">Settings</h2>
+
+          <div class="settings-panel__group">
+            <span class="settings-panel__label">Master Volume</span>
+            <input class="settings-panel__slider" type="range" min="0" max="100" value="80" />
+          </div>
+
+          <div class="settings-panel__group">
+            <span class="settings-panel__label">Music Volume</span>
+            <input class="settings-panel__slider" type="range" min="0" max="100" value="100" />
+          </div>
+
+          <div class="settings-panel__group">
+            <span class="settings-panel__label">SFX Volume</span>
+            <input class="settings-panel__slider" type="range" min="0" max="100" value="100" />
+          </div>
+
+          <div class="settings-panel__group settings-panel__group--toggle">
+            <span class="settings-panel__label">Fullscreen</span>
+            <button class="settings-panel__toggle" type="button" role="switch" aria-checked="false" aria-label="Toggle fullscreen">
+              <span class="settings-panel__toggle-track"></span>
+              <span class="settings-panel__toggle-thumb"></span>
+            </button>
+          </div>
+
+          <div class="settings-panel__group settings-panel__group--toggle">
+            <span class="settings-panel__label">Reduced Motion</span>
+            <button class="settings-panel__toggle" type="button" role="switch" aria-checked="false" aria-label="Toggle reduced motion">
+              <span class="settings-panel__toggle-track"></span>
+              <span class="settings-panel__toggle-thumb"></span>
+            </button>
+          </div>
+        </section>
 
         <footer class="menu-footer" aria-label="Game information">
           <span>Made by Gerrxt</span>
